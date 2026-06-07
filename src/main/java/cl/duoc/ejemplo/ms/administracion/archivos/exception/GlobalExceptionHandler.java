@@ -165,23 +165,6 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
 	}
 
-	@ExceptionHandler(GuiaAccessDeniedException.class)
-	public ResponseEntity<ErrorResponse> handleGuiaAccessDeniedException(GuiaAccessDeniedException ex,
-			WebRequest request) {
-
-		log.error("Acceso denegado a guía: {}", ex.getMessage());
-
-		ErrorResponse error = ErrorResponse.builder()
-				.timestamp(LocalDateTime.now())
-				.status(HttpStatus.FORBIDDEN.value())
-				.error("Access Denied")
-				.message(ex.getMessage())
-				.path(getPath(request))
-				.build();
-
-		return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
-	}
-
 	/**
 	 * Maneja excepciones de archivos inválidos
 	 */

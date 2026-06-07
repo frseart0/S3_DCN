@@ -9,5 +9,4 @@ import lombok.Data;
 public class AppProperties {
 
 	private String s3Bucket = "ms-guias-bucket";
-	private String adminTransportista = "admin";
 }

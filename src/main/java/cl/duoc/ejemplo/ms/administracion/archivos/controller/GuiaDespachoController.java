@@ -44,11 +44,9 @@ public class GuiaDespachoController {
 	}
 
 	@GetMapping("/{id}/descargar")
-	public ResponseEntity<byte[]> descargar(
-			@PathVariable String id,
-			@RequestParam String transportista) {
+	public ResponseEntity<byte[]> descargar(@PathVariable String id) {
 
-		byte[] contenido = guiaDespachoService.descargar(id, transportista);
+		byte[] contenido = guiaDespachoService.descargar(id);
 		String filename = "guia-" + id + ".pdf";
 
 		return ResponseEntity.ok()

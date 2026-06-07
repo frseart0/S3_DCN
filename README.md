@@ -2,7 +2,7 @@
 
 - Crear guías de despacho y guardarlas temporalmente en EFS
 - Subir guías a S3 organizadas por fecha y transportista: `yyyy-MM-dd/{transportista}/guia-{id}.pdf`
-- Descargar guías con validación de permisos por transportista
+- Descargar guías desde EFS o S3
 - Actualizar y eliminar guías
 - Consultar historial por transportista y fecha
 
@@ -13,7 +13,7 @@
 | ------ | --------------------------------------------------- | ----------------------------------------- |
 | POST   | `/guias`                                            | Crear guía de despacho                    |
 | POST   | `/guias/{id}/subir`                                 | Subir guía a S3                           |
-| GET    | `/guias/{id}/descargar?transportista=...`           | Descargar guía (valida permisos)          |
+| GET    | `/guias/{id}/descargar`                             | Descargar guía                            |
 | PUT    | `/guias/{id}`                                       | Actualizar guía                           |
 | DELETE | `/guias/{id}`                                       | Eliminar guía                             |
 | GET    | `/guias?transportista=...&fecha=yyyy-MM-dd`         | Consultar guías por transportista y fecha |
@@ -30,7 +30,6 @@
 | `AWS_REGION`            | Región AWS                      | `us-east-1`       |
 | `AWS_ACCESS_KEY_ID`     | Credencial AWS                  | -                 |
 | `AWS_SECRET_ACCESS_KEY` | Credencial AWS                  | -                 |
-| `ADMIN_TRANSPORTISTA`   | Transportista con permiso admin | `admin`           |
 
 
 ## Docker

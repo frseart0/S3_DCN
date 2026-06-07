@@ -16,7 +16,6 @@ import org.junit.jupiter.api.io.TempDir;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import cl.duoc.ejemplo.ms.administracion.archivos.config.AppProperties;
-import cl.duoc.ejemplo.ms.administracion.archivos.exception.GuiaAccessDeniedException;
 import cl.duoc.ejemplo.ms.administracion.archivos.exception.GuiaNotFoundException;
 import cl.duoc.ejemplo.ms.administracion.archivos.model.GuiaDespacho;
 import cl.duoc.ejemplo.ms.administracion.archivos.repository.GuiaDespachoRepository;
@@ -40,7 +39,6 @@ class GuiaDespachoServiceTest {
 		awsS3Service = new StubAwsS3Service();
 		appProperties = new AppProperties();
 		appProperties.setS3Bucket("test-bucket");
-		appProperties.setAdminTransportista("admin");
 		guiaDespachoService = new GuiaDespachoService(repository, efsService, awsS3Service, appProperties);
 
 		byte[] contenido = "contenido-guia".getBytes();
@@ -64,27 +62,15 @@ class GuiaDespachoServiceTest {
 	}
 
 	@Test
-	void debePermitirDescargaAlTransportistaPropietario() {
-		byte[] resultado = guiaDespachoService.descargar("abc12345", "transportistaX");
+	void debeDescargarGuiaDesdeEfs() {
+		byte[] resultado = guiaDespachoService.descargar("abc12345");
 		assertEquals("contenido-guia", new String(resultado));
-	}
-
-	@Test
-	void debePermitirDescargaAlAdmin() {
-		byte[] resultado = guiaDespachoService.descargar("abc12345", "admin");
-		assertEquals("contenido-guia", new String(resultado));
-	}
-
-	@Test
-	void debeRechazarDescargaSinPermisos() {
-		assertThrows(GuiaAccessDeniedException.class,
-				() -> guiaDespachoService.descargar("abc12345", "otroTransportista"));
 	}
 
 	@Test
 	void debeLanzarExcepcionSiGuiaNoExiste() {
 		assertThrows(GuiaNotFoundException.class,
-				() -> guiaDespachoService.descargar("inexistente", "transportistaX"));
+				() -> guiaDespachoService.descargar("inexistente"));
 	}
 
 	@Test
@@ -103,7 +89,7 @@ class GuiaDespachoServiceTest {
 		repository.save(guiaS3);
 		awsS3Service.setContenido("desde-s3".getBytes());
 
-		byte[] resultado = guiaDespachoService.descargar("s3guia01", "transportistaX");
+		byte[] resultado = guiaDespachoService.descargar("s3guia01");
 
 		assertArrayEquals("desde-s3".getBytes(), resultado);
 	}

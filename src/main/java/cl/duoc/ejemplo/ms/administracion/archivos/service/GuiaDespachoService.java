@@ -1,6 +1,5 @@
 package cl.duoc.ejemplo.ms.administracion.archivos.service;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,7 +13,6 @@ import cl.duoc.ejemplo.ms.administracion.archivos.config.AppProperties;
 import cl.duoc.ejemplo.ms.administracion.archivos.dto.ActualizarGuiaRequest;
 import cl.duoc.ejemplo.ms.administracion.archivos.dto.CrearGuiaRequest;
 import cl.duoc.ejemplo.ms.administracion.archivos.dto.GuiaDespachoResponse;
-import cl.duoc.ejemplo.ms.administracion.archivos.exception.GuiaAccessDeniedException;
 import cl.duoc.ejemplo.ms.administracion.archivos.exception.GuiaNotFoundException;
 import cl.duoc.ejemplo.ms.administracion.archivos.model.GuiaDespacho;
 import cl.duoc.ejemplo.ms.administracion.archivos.repository.GuiaDespachoRepository;
@@ -84,9 +82,8 @@ public class GuiaDespachoService {
 		return toResponse(guia);
 	}
 
-	public byte[] descargar(String id, String transportistaSolicitante) {
+	public byte[] descargar(String id) {
 		GuiaDespacho guia = findGuiaOrThrow(id);
-		validarPermisoDescarga(guia, transportistaSolicitante);
 
 		if (!guia.isSubidaS3()) {
 			try {
@@ -170,21 +167,6 @@ public class GuiaDespachoService {
 						.descripcion("Objeto encontrado en S3")
 						.build())
 				.collect(Collectors.toList());
-	}
-
-	private void validarPermisoDescarga(GuiaDespacho guia, String transportistaSolicitante) {
-		if (transportistaSolicitante == null || transportistaSolicitante.isBlank()) {
-			throw new GuiaAccessDeniedException("Debe indicar el transportista solicitante para descargar la guía");
-		}
-
-		String solicitante = transportistaSolicitante.trim();
-		boolean esPropietario = guia.getTransportista().equalsIgnoreCase(solicitante);
-		boolean esAdmin = appProperties.getAdminTransportista().equalsIgnoreCase(solicitante);
-
-		if (!esPropietario && !esAdmin) {
-			throw new GuiaAccessDeniedException(
-					"El transportista '" + solicitante + "' no tiene permisos para descargar esta guía");
-		}
 	}
 
 	private GuiaDespacho findGuiaOrThrow(String id) {
