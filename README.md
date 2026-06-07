@@ -23,13 +23,13 @@
 ## Variables de entorno
 
 
-| Variable                | Descripción                     | Default           |
-| ----------------------- | ------------------------------- | ----------------- |
-| `EFS_PATH`              | Ruta montaje EFS                | `/app/efs`        |
-| `S3_BUCKET`             | Bucket S3                       | `ms-guias-bucket` |
-| `AWS_REGION`            | Región AWS                      | `us-east-1`       |
-| `AWS_ACCESS_KEY_ID`     | Credencial AWS                  | -                 |
-| `AWS_SECRET_ACCESS_KEY` | Credencial AWS                  | -                 |
+| Variable                | Descripción      | Default           |
+| ----------------------- | ---------------- | ----------------- |
+| `EFS_PATH`              | Ruta montaje EFS | `/app/efs`        |
+| `S3_BUCKET`             | Bucket S3        | `ms-guias-bucket` |
+| `AWS_REGION`            | Región AWS       | `us-east-1`       |
+| `AWS_ACCESS_KEY_ID`     | Credencial AWS   | -                 |
+| `AWS_SECRET_ACCESS_KEY` | Credencial AWS   | -                 |
 
 
 ## Docker
@@ -71,3 +71,6 @@ Al hacer push a `main`, el workflow:
 2. Montar EFS en EC2 en `/mnt/efs` y mapearlo al contenedor
 3. Configurar IAM con permisos `s3:PutObject`, `s3:GetObject`, `s3:DeleteObject`, `s3:ListBucket`
 
+
+
+prueba aaa
