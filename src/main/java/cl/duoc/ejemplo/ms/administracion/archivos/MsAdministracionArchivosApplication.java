@@ -6,6 +6,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 import cl.duoc.ejemplo.ms.administracion.archivos.config.AppProperties;
 
+//a
+
 @SpringBootApplication
 @EnableConfigurationProperties(AppProperties.class)
 public class MsAdministracionArchivosApplication {
