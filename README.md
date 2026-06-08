@@ -71,6 +71,4 @@ Al hacer push a `main`, el workflow:
 2. Montar EFS en EC2 en `/mnt/efs` y mapearlo al contenedor
 3. Configurar IAM con permisos `s3:PutObject`, `s3:GetObject`, `s3:DeleteObject`, `s3:ListBucket`
 
-
-
-prueba aaa github actions
+prueba aaa github actions a
