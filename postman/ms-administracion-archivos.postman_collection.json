@@ -1,0 +1,320 @@
+{
+	"info": {
+		"name": "ms-administracion-archivos",
+		"description": "API de gestion de guias de despacho - Semana 6 (Azure AD B2C + API Gateway)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "api_base_url",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "guia_id",
+			"value": ""
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "accessTokenUrl",
+				"value": "https://{{b2c_tenant}}.b2clogin.com/{{b2c_tenant}}.onmicrosoft.com/{{b2c_policy}}/oauth2/v2.0/token",
+				"type": "string"
+			},
+			{
+				"key": "authUrl",
+				"value": "https://{{b2c_tenant}}.b2clogin.com/{{b2c_tenant}}.onmicrosoft.com/{{b2c_policy}}/oauth2/v2.0/authorize",
+				"type": "string"
+			},
+			{
+				"key": "scope",
+				"value": "openid {{api_scope}} offline_access",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "{{postman_client_id}}",
+				"type": "string"
+			},
+			{
+				"key": "redirect_uri",
+				"value": "https://oauth.pstmn.io/v1/callback",
+				"type": "string"
+			},
+			{
+				"key": "grant_type",
+				"value": "authorization_code_with_pkce",
+				"type": "string"
+			}
+		]
+	},
+	"item": [
+		{
+			"name": "Guias",
+			"item": [
+				{
+					"name": "Crear guia (GUIA_GESTION)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status 201 Created', function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"if (pm.response.code === 201) {",
+									"    var json = pm.response.json();",
+									"    pm.collectionVariables.set('guia_id', json.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"transportista\": \"Transportes ABC\",\n  \"pedidoId\": \"PED-001\",\n  \"descripcion\": \"Guia de prueba\"\n}"
+						},
+						"url": "{{api_base_url}}/guias"
+					}
+				},
+				{
+					"name": "Subir guia a S3 (GUIA_GESTION)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status 200 OK', function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"url": "{{api_base_url}}/guias/{{guia_id}}/subir"
+					}
+				},
+				{
+					"name": "Descargar guia (GUIA_DESCARGAR)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status 200 OK', function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"url": "{{api_base_url}}/guias/{{guia_id}}/descargar"
+					}
+				},
+				{
+					"name": "Actualizar guia (GUIA_GESTION)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status 200 OK', function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"descripcion\": \"Guia actualizada\"\n}"
+						},
+						"url": "{{api_base_url}}/guias/{{guia_id}}"
+					}
+				},
+				{
+					"name": "Consultar guias (GUIA_GESTION)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status 200 OK', function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{api_base_url}}/guias?transportista=Transportes ABC&fecha=2026-06-03",
+							"host": ["{{api_base_url}}"],
+							"path": ["guias"],
+							"query": [
+								{
+									"key": "transportista",
+									"value": "Transportes ABC"
+								},
+								{
+									"key": "fecha",
+									"value": "2026-06-03"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Eliminar guia (GUIA_GESTION)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status 204 No Content', function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"url": "{{api_base_url}}/guias/{{guia_id}}"
+					}
+				}
+			]
+		},
+		{
+			"name": "S3",
+			"item": [
+				{
+					"name": "Listar objetos bucket (GUIA_GESTION)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status 200 OK', function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"url": "{{api_base_url}}/s3/{{s3_bucket}}/objects"
+					}
+				}
+			]
+		},
+		{
+			"name": "Seguridad - Evidencias",
+			"item": [
+				{
+					"name": "Sin token - debe retornar 401",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status 401 Unauthorized', function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"url": "{{api_base_url}}/guias/test-id/descargar"
+					}
+				},
+				{
+					"name": "Rol incorrecto - descargar con GUIA_GESTION debe retornar 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status 403 Forbidden', function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"url": "{{api_base_url}}/guias/test-id/descargar"
+					}
+				},
+				{
+					"name": "Rol incorrecto - crear con GUIA_DESCARGAR debe retornar 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status 403 Forbidden', function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"transportista\": \"TransX\",\n  \"pedidoId\": \"PED-999\"\n}"
+						},
+						"url": "{{api_base_url}}/guias"
+					}
+				}
+			]
+		}
+	]
+}
