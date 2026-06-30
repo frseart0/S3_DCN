@@ -4,24 +4,24 @@ Use esta lista después de desplegar en EC2 y configurar API Gateway.
 
 ## 1. Azure AD B2C
 
-- [ ] Tenant B2C creado
-- [ ] App API registrada con roles `GUIA_DESCARGAR` y `GUIA_GESTION`
-- [ ] App cliente Postman registrada con redirect URI `https://oauth.pstmn.io/v1/callback`
-- [ ] User flow `B2C_1_signupsignin` creado y asociado a las apps
-- [ ] Usuario `descargador@test.com` con rol `GUIA_DESCARGAR`
-- [ ] Usuario `gestor@test.com` con rol `GUIA_GESTION`
-- [ ] Token JWT contiene claim `roles` (verificar en jwt.ms)
+- [x] Tenant B2C creado
+- [x] App API registrada con roles `GUIA_DESCARGAR` y `GUIA_GESTION`
+- [x] App cliente Postman registrada con redirect URI `https://oauth.pstmn.io/v1/callback`
+- [x] User flow `B2C_1_signupsignin` creado y asociado a las apps
+- [x] Usuario `descargador@test.com` con rol `GUIA_DESCARGAR`
+- [x] Usuario `gestor@test.com` con rol `GUIA_GESTION`
+- [x] Token JWT contiene claim `roles` (verificar en jwt.ms)
 
 ## 2. EC2 y Docker
 
-- [ ] Push a `main` ejecutó GitHub Actions sin errores
-- [ ] Contenedor corriendo: `docker ps` muestra `ms-administracion-archivos`
-- [ ] Variables OAuth presentes en el contenedor:
+- [x] Push a `main` ejecutó GitHub Actions sin errores
+- [x] Contenedor corriendo: `docker ps` muestra `ms-administracion-archivos`
+- [x] Variables OAuth presentes en el contenedor:
   ```bash
   docker inspect ms-administracion-archivos | grep AZURE
   ```
-- [ ] EFS montado en `/mnt/efs` y mapeado al contenedor
-- [ ] Security Group permite puerto 8080
+- [x] EFS montado en `/mnt/efs` y mapeado al contenedor
+- [x] Security Group permite puerto 8080
 
 
 

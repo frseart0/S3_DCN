@@ -26,8 +26,6 @@ Desde el **1 de mayo de 2025**, Microsoft dejó de permitir la creación de **nu
   - **Country/Region:** según corresponda (no se puede cambiar después)
 6. **Review + Create**. La creación puede tardar hasta 30 minutos.
 
-
-
 ### 2. Obtener datos del tenant
 
 1. Cambiar al tenant externo: icono de directorio (esquina superior derecha) → **Switch**.
@@ -36,8 +34,6 @@ Desde el **1 de mayo de 2025**, Microsoft dejó de permitir la creación de **nu
   - **Primary domain** → `transportistaguias.onmicrosoft.com`
   - **Tenant name** → usado en URLs `ciamlogin.com`
 
-
-
 ### 3. Registrar aplicación API (Spring Boot)
 
 1. **Entra ID** → **App registrations** → **New registration**.
@@ -45,8 +41,6 @@ Desde el **1 de mayo de 2025**, Microsoft dejó de permitir la creación de **nu
 3. Supported account types: **Accounts in this organizational directory only**.
 4. Redirect URI: dejar vacío (es una API).
 5. **Register** y anotar el **Application (client) ID** → valor de `AZURE_B2C_CLIENT_ID`.
-
-
 
 #### 3.1 Exponer scope de API
 
@@ -59,8 +53,6 @@ Desde el **1 de mayo de 2025**, Microsoft dejó de permitir la creación de **nu
   - Description: `Acceso a ms-administracion-archivos`
 4. Anotar el scope completo, por ejemplo: `api://{API-CLIENT-ID}/access`. -> [https://transportistaguias.onmicrosoft.com/ms-guias/access](https://transportistaguias.onmicrosoft.com/ms-guias/access)
 
-
-
 #### 3.2 Crear App Roles
 
 1. **App roles** → **Create app role**:
@@ -70,8 +62,6 @@ Desde el **1 de mayo de 2025**, Microsoft dejó de permitir la creación de **nu
 | ---------------- | -------------------- | ---------------- | -------------------------------------------------- |
 | Descargar Guías  | Users/Groups         | `GUIA_DESCARGAR` | Solo endpoint de descarga                          |
 | Gestión de Guías | Users/Groups         | `GUIA_GESTION`   | Crear, subir, actualizar, eliminar, consultar y S3 |
-
-
 
 
 ### 4. Registrar aplicación cliente (Postman)
@@ -88,8 +78,6 @@ Desde el **1 de mayo de 2025**, Microsoft dejó de permitir la creación de **nu
 3. Marcar el scope `access` → **Add permissions**.
 4. **Grant admin consent** (si aplica).-----------------------------------------------------
 
-
-
 ### 5. User flow (flujo de registro e inicio de sesión)
 
 1. **External Identities** → **User flows** → **New user flow**.
@@ -103,8 +91,6 @@ Desde el **1 de mayo de 2025**, Microsoft dejó de permitir la creación de **nu
 
 1. Abrir el user flow → **Applications**.
 2. Agregar `postman-client` y `ms-administracion-archivos-api`.
-
-
 
 ### 6. Crear usuarios de prueba
 
@@ -120,8 +106,6 @@ Desde el **1 de mayo de 2025**, Microsoft dejó de permitir la creación de **nu
 4. Asignar `gestor@test.com` → rol `GUIA_GESTION`.
 
 > **Nota:** Verificar que el claim `roles` aparezca en el token JWT decodificado en [jwt.ms](https://jwt.ms). Si no aparece, revise la asignación en Enterprise applications y el manifest de la app API.
-
-
 
 ### 7. Variables de entorno para Spring Boot
 
@@ -141,9 +125,7 @@ AZURE_B2C_ISSUER_URI=https://transportistaguias.ciamlogin.com/12345678-abcd-efgh
 AZURE_B2C_CLIENT_ID=87654321-dcba-hgfe-lkji-0987654321ba
 ```
 
-> Los nombres de variable conservan el prefijo `AZURE_B2C_` por compatibilidad con el proyecto, aunque el servicio ya no sea B2C.
-
-También configúrelas como secrets en GitHub Actions: `AZURE_B2C_ISSUER_URI`, `AZURE_B2C_CLIENT_ID`.
+ Configurar en GitHub Secrets: `AZURE_B2C_ISSUER_URI`, `AZURE_B2C_CLIENT_ID`.
 
 ### 8. Obtener token en Postman (OAuth 2.0)
 
@@ -162,8 +144,6 @@ También configúrelas como secrets en GitHub Actions: `AZURE_B2C_ISSUER_URI`, `
   (ajuste según el scope definido al exponer la API).
 7. **Callback URL:** `https://oauth.pstmn.io/v1/callback`.
 8. Obtener token e iniciar sesión con el usuario del rol que desea probar.
-
-
 
 ### 9. Verificación
 
@@ -188,8 +168,6 @@ Pruebas de autorización:
 | `GUIA_GESTION` en `POST /guias`                 | 201 Created        |
 
 
-
-
 ### 10. API Gateway (AWS)
 
 El JWT Authorizer funciona igual que con B2C; solo cambia el **Issuer**:
@@ -200,8 +178,6 @@ El JWT Authorizer funciona igual que con B2C; solo cambia el **Issuer**:
 Ver [api-gateway-setup.md](api-gateway-setup.md) para el resto de la configuración.
 
 ---
-
-
 
 ## Referencias
 

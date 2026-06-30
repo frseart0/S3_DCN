@@ -11,6 +11,8 @@ Use este documento como base para el entregable Word con capturas de pantalla.
 - Tenant Azure AD B2C configurado (ver [azure-ad-b2c-setup.md](azure-ad-b2c-setup.md)).
 - Valores de `AZURE_B2C_ISSUER_URI` y `AZURE_B2C_CLIENT_ID`.
 
+
+
 ## 1. Crear REST API
 
 1. AWS Console → **API Gateway** → **Create API**.
@@ -19,7 +21,11 @@ Use este documento como base para el entregable Word con capturas de pantalla.
 4. Endpoint Type: **Regional**.
 5. **Create API**.
 
+
+
 ## 2. Crear recursos y métodos
+
+
 
 ### Opción A: Proxy completo
 
@@ -35,16 +41,16 @@ Repetir para el recurso raíz `/` con método **ANY** apuntando a `http://{EC2_I
 ### Opción B: Rutas explícitas
 
 
-| Método | Ruta API Gateway        | Integración HTTP Proxy                      |
-| ------ | ----------------------- | ------------------------------------------- |
-| POST   | `/guias`                | `http://{EC2_IP}:8080/guias`                |
-| POST   | `/guias/{id}/subir`     | `http://{EC2_IP}:8080/guias/{id}/subir`     |
-| GET    | `/guias/{id}/descargar` | `http://{EC2_IP}:8080/guias/{id}/descargar` |
-| PUT    | `/guias/{id}`           | `http://{EC2_IP}:8080/guias/{id}`           |
-| DELETE | `/guias/{id}`           | `http://{EC2_IP}:8080/guias/{id}`           |
-| GET    | `/guias`                | `http://{EC2_IP}:8080/guias`                |
-| GET    | `/s3/{bucket}/objects`  | `http://{EC2_IP}:8080/s3/{bucket}/objects`  |
-| *      | `/s3/{proxy+}`          | `http://{EC2_IP}:8080/s3/{proxy}`           |
+| Método | Ruta API Gateway        | Integración HTTP Proxy                             |
+| ------ | ----------------------- | -------------------------------------------------- |
+| POST   | `/guias`                | `http://`16.59.211.157`:8080/guias`                |
+| POST   | `/guias/{id}/subir`     | `http://`16.59.211.157`:8080/guias/{id}/subir`     |
+| GET    | `/guias/{id}/descargar` | `http://`16.59.211.157`:8080/guias/{id}/descargar` |
+| PUT    | `/guias/{id}`           | `http://`16.59.211.157`:8080/guias/{id}`           |
+| DELETE | `/guias/{id}`           | `http://`16.59.211.157`:8080/guias/{id}`           |
+| GET    | `/guias`               | `http://`16.59.211.157`:8080/guias`                |
+| GET    | `/s3/{bucket}/objects`  | `http://`16.59.211.157`:8080/s3/{bucket}/objects`  |
+| *      | `/s3/{proxy+}`          | `http://`16.59.211.157`:8080/s3/{proxy}`           |
 
 
 

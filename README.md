@@ -19,7 +19,7 @@
 | DELETE | `/guias/{id}`                                       | Eliminar guía                             | `GUIA_GESTION`   |
 | GET    | `/guias?transportista=...&fecha=yyyy-MM-dd`         | Consultar guías por transportista y fecha | `GUIA_GESTION`   |
 | GET    | `/guias?transportista=...&fecha=...&incluirS3=true` | Consultar historial directamente en S3    | `GUIA_GESTION`   |
-| *      | `/s3/*`*                                            | Operaciones directas S3                   | `GUIA_GESTION`   |
+| *      | `/s3/`**                                            | Operaciones directas S3                   | `GUIA_GESTION`   |
 
 
 Todos los endpoints requieren header `Authorization: Bearer {token}` excepto en perfil `local`.
@@ -161,4 +161,4 @@ Al hacer push a `main`, el workflow:
 | Checklist post-despliegue | [docs/deploy-verification.md](docs/deploy-verification.md) |
 
 
-Convertir los documentos Markdown a Word (.docx) con capturas de pantalla para el entregable AVA.
+Convertir los documentos Markdown a Word (.docx) con capturas de pantalla para el entregable AVA
